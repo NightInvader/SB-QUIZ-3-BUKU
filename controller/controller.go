@@ -129,7 +129,7 @@ func DeleteCategories(c *gin.Context) {
 
 func GetBooksByCategory(c *gin.Context) {
 	catId := c.Param("id")
-	var books structs.Books
+	var books []structs.Books
 	var category structs.Category
 
 	if err := config.DB.First(&category, catId).Error; err != nil {

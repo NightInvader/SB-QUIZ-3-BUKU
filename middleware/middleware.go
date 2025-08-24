@@ -26,7 +26,7 @@ func BasicAuth() gin.HandlerFunc {
 		username, password := parts[0], parts[1]
 
 		var user structs.User
-		if err := config.DB.Where("username = ? AND password = ?", username, password).First(&user).Error; err != nil {
+		if err := config.DB.Where("Username = ? AND Password = ?", username, password).First(&user).Error; err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
 			return
 		}

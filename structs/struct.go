@@ -12,7 +12,6 @@ type Books struct {
 	TotalPage   int
 	Thickness   string
 	CategoryID  int
-	Category    Category `gorm:"foreignKey:CategoryID"`
 	CreatedAt   time.Time
 	CreatedBy   string
 	ModifiedAt  time.Time
@@ -26,7 +25,6 @@ type Category struct {
 	CreatedBy  string
 	ModifiedAt time.Time
 	ModifiedBy time.Time
-	Books      []Books
 }
 
 type User struct {

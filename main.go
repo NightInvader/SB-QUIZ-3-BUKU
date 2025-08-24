@@ -9,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var err error
+
 func main() {
 
 	config.ConnectDB() //connect to database
@@ -28,8 +30,14 @@ func main() {
 		auth.GET("/categories", controller.GetAllCategories)
 		auth.POST("/categories", controller.AddCategories)
 		auth.GET("/categories/:id", controller.DetailCategories)
-		auth.DELETE("/categores/:id", controller.DeleteCategories)
-		auth.GET("/categories/:id", controller.GetBooksByCategory)
+		auth.DELETE("/categories/:id", controller.DeleteCategories)
+		auth.GET("/categories/:id/books", controller.GetBooksByCategory)
 	}
+	// err = godotenv.Load("config/connect.env")
+	// if err != nil {
+	// 	panic("Error loading .env file")
+	// }
+	// port := os.Getenv("DB_PORT")
 
+	router.Run(":8080")
 }
