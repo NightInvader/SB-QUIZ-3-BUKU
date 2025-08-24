@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"quiz/config"
 	"quiz/controller"
 	"quiz/middleware"
@@ -38,6 +39,9 @@ func main() {
 	// 	panic("Error loading .env file")
 	// }
 	// port := os.Getenv("DB_PORT")
-
-	router.Run(":8080")
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		PORT = "8080"
+	}
+	router.Run("+", PORT)
 }
