@@ -1,47 +1,33 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"os"
-	"quiz/database"
+	"quiz/config"
+	"quiz/controller"
+	"quiz/middleware"
+	"quiz/structs"
 
-	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
-)
-
-var (
-	DB  *sql.DB
-	err error
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
-	err = godotenv.Load("config/connect.env")
-	if err != nil {
-		panic("Error loading .env file")
+	config.ConnectDB() //connect to database
+
+	config.DB.AutoMigrate(&structs.Books{}, &structs.Category{}, &structs.User{}) // migrate the database
+
+	router := gin.Default() //setup router
+
+	auth := router.Group("/api", middleware.BasicAuth()) //masking the api with basicauth
+	{
+		auth.GET("/books", controller.GetAllBooks)
+		auth.POST("/books", controller.AddBooks)
+		auth.GET("/books/:id", controller.DetailBooks)
+		auth.DELETE("/books/:id", controller.DeleteBooks)
+		auth.GET("/categories", controller.GetAllCategories)
+		auth.POST("/categories", controller.AddCategories)
+		auth.GET("/categories/:id", controller.DetailCategories)
+		auth.DELETE("/categores/:id", controller.DeleteCategories)
+		auth.GET("/categories/:id", controller.GetBooksByCategory)
 	}
-
-	psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	)
-
-	DB, err = sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	defer DB.Close()
-	err = DB.Ping()
-	if err != nil {
-		panic(err)
-	}
-
-	database.DBMigrate(DB)
-
-	fmt.Println("Succesfully Connected")
 
 }

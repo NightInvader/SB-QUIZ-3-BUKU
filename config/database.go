@@ -1,0 +1,41 @@
+package config
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
+
+var (
+	DB  *gorm.DB
+	err error
+)
+
+func ConnectDB() {
+	err = godotenv.Load("config/connect.env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
+
+	psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+	)
+
+	database, err := gorm.Open(postgres.Open(psqlInfo), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Failed to Connect to : ", err)
+	}
+
+	DB = database
+
+	fmt.Println("Succesfully Connected to Database")
+
+}
