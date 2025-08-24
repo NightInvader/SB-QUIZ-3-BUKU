@@ -28,7 +28,10 @@ func ConnectDB() {
 	// 	os.Getenv("DB_PASSWORD"),
 	// 	os.Getenv("DB_NAME"),
 	// )
-	psqlinfo := os.Getenv("DATABASE_PUBLIC_URL")
+	psqlinfo := os.Getenv("DATABASE_URL") // Railway provides this
+	if psqlinfo == "" {
+		log.Fatal("DATABASE_URL is not set")
+	}
 
 	database, err := gorm.Open(postgres.Open(psqlinfo), &gorm.Config{})
 	if err != nil {
