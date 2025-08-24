@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"log"
-	"os"
 
 	// "github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -28,7 +27,7 @@ func ConnectDB() {
 	// 	os.Getenv("DB_PASSWORD"),
 	// 	os.Getenv("DB_NAME"),
 	// )
-	psqlinfo := os.Getenv("DATABASE_URL") // Railway provides this
+	psqlinfo := "postgresql://postgres:ESGpttFyugtBKDygzqDJmGvsKtSHRaJt@metro.proxy.rlwy.net:13897/railway"
 	if psqlinfo == "" {
 		log.Fatal("DATABASE_URL is not set")
 	}
