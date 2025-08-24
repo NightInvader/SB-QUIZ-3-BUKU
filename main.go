@@ -17,6 +17,8 @@ func main() {
 
 	router := gin.Default() //setup router
 
+	router.POST("/api/signup", controller.AddUser)
+
 	auth := router.Group("/api", middleware.BasicAuth()) //masking the api with basicauth
 	{
 		auth.GET("/books", controller.GetAllBooks)

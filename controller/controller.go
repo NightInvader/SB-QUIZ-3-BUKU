@@ -144,3 +144,29 @@ func GetBooksByCategory(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, books)
 }
+
+func AddUser(c *gin.Context) {
+	var user structs.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	var check structs.User
+
+	if n := config.DB.Where("username = ?", user.Username).First(&check).Error; n == nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "username existed"})
+		return
+	}
+
+	if err := config.DB.Create(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"erro": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "user created",
+		"user":    user,
+	})
+
+}
