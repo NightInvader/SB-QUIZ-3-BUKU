@@ -43,5 +43,5 @@ func main() {
 	if PORT == "" {
 		PORT = "8080"
 	}
-	router.Run(":", PORT)
+	router.Run(":" + PORT)
 }
