@@ -16,7 +16,7 @@ var (
 )
 
 func ConnectDB() {
-	err = godotenv.Load("config/connect.env")
+	err = godotenv.Load("config/.env")
 	if err != nil {
 		panic("Error loading .env file")
 	}
