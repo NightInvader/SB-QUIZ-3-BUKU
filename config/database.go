@@ -3,8 +3,9 @@ package config
 import (
 	"fmt"
 	"log"
+	"os"
 
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,10 +16,10 @@ var (
 )
 
 func ConnectDB() {
-	// err = godotenv.Load("config/connect.env")
-	// if err != nil {
-	// 	panic("Error loading .env file")
-	// }
+	err = godotenv.Load("config/connect.env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
 
 	// psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
 	// 	os.Getenv("DB_HOST"),
@@ -27,7 +28,8 @@ func ConnectDB() {
 	// 	os.Getenv("DB_PASSWORD"),
 	// 	os.Getenv("DB_NAME"),
 	// )
-	psqlinfo := "postgresql://postgres:ESGpttFyugtBKDygzqDJmGvsKtSHRaJt@metro.proxy.rlwy.net:13897/railway"
+	// psqlinfo := "postgresql://postgres:ESGpttFyugtBKDygzqDJmGvsKtSHRaJt@metro.proxy.rlwy.net:13897/railway"
+	psqlinfo := os.Getenv("DATABASE_PUBLIC_URL")
 	if psqlinfo == "" {
 		log.Fatal("DATABASE_URL is not set")
 	}
