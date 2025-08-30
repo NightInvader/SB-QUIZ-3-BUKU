@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -16,10 +16,10 @@ var (
 )
 
 func ConnectDB() {
-	err = godotenv.Load("config/.env")
-	if err != nil {
-		panic("Error loading .env file")
-	}
+	// err = godotenv.Load(".env")
+	// if err != nil {
+	// 	panic("Error loading .env file")
+	// }
 
 	// psqlInfo := fmt.Sprintf(`host=%s port=%s user=%s password=%s dbname=%s sslmode=disable`,
 	// 	os.Getenv("DB_HOST"),
